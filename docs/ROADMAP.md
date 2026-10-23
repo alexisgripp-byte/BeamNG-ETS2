@@ -1,40 +1,35 @@
 # BeamNG-ETS2 Roadmap
 
-## Phase 1 - Foundation
+## Phase 1: foundation
+- define the project structure
+- organize truck and map config
+- build menu and selection logic
+- create a spawn entrypoint
 
-- Set up repository structure
-- Define truck list and map list
-- Build a basic menu state system
-- Add spawn logic for a selected vehicle
+## Phase 2: prototype driving
+- add a vehicle spawn flow
+- test map loading
+- test camera and player state logic
+- verify the truck can enter the world properly
 
-## Phase 2 - Driving Prototype
+## Phase 3: ETS2-inspired UI
+- create the truck selection screen
+- create a custom minimap HUD
+- add route markers and marker overlays
+- add speed and world status display
 
-- Spawn a truck into a BeamNG map
-- Set camera and player position
-- Add a basic driving script for testing
-- Confirm vehicle model loading works correctly
+## Phase 4: gameplay layer
+- add cargo or delivery loop
+- add route generation
+- add map markers
+- improve the experience of driving and navigation
 
-## Phase 3 - ETS2-Inspired UI
-
-- Add a menu screen with truck selection
-- Add a minimap overlay with player marker
-- Add speed, route, and status display
-- Make the overall look more like an ETS2-inspired HUD
-
-## Phase 4 - Game Feel
-
-- Add cargo system or delivery loop
-- Add navigation route markers
-- Add jobs or progression loop
-- Make the driving feel more immersive
-
-## Phase 5 - Expansion
-
-- Support more maps and vehicles
-- Add custom asset pack
-- Improve map rendering and HUD visuals
-- Refine the complete mod experience
+## Phase 5: polish
+- add textures, styling, icons
+- improve world interaction
+- add final game feel polish
+- refine mod integration for BeamNG
 
 ## Notes
 
-This roadmap is intentionally simple and practical. The project will likely evolve around the assets, map selection, and user interface rather than raw physics simulation, because BeamNG already handles the driving model.
+This roadmap is intentionally practical. The biggest work is usually not the driving physics — BeamNG already handles that. The real work is menu logic, UI, vehicle spawning, and making your custom world flow feel cohesive.

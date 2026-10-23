@@ -1,33 +1,33 @@
 -- beamng_ets2_core/config.lua
--- Basic project config for a BeamNG + ETS2 inspired prototype.
+-- Main configuration for the BeamNG-ETS2 prototype.
 
 local config = {
   modName = "BeamNG-ETS2",
-  version = "0.1.0",
+  version = "0.2.0",
   defaultMap = "smallgrid",
-  defaultTruck = "et2_truck_prototype",
+  defaultTruck = "et2_prototype_truck",
 
   trucks = {
     {
-      id = "et2_truck_prototype",
-      name = "ETS2 Prototype Truck",
+      id = "et2_prototype_truck",
+      name = "Prototype Truck",
       type = "tractor",
       color = "white",
-      description = "Starter truck for early prototype testing."
+      description = "Starter truck for the first concept build."
     },
     {
       id = "et2_box_truck",
-      name = "ETS2 Box Truck",
+      name = "Box Truck",
       type = "box",
       color = "red",
-      description = "A heavier cargo-focused vehicle variant."
+      description = "A cargo-focused variant."
     },
     {
       id = "et2_van",
-      name = "ETS2 Utility Van",
+      name = "Utility Van",
       type = "van",
       color = "blue",
-      description = "A compact utility option for quick testing."
+      description = "A smaller vehicle for quick tests."
     }
   },
 
@@ -44,7 +44,12 @@ local config = {
     backgroundColor = "#091522",
     borderColor = "#34d399",
     playerColor = "#fbbf24",
-    routeColor = "#38bdf8"
+    routeColor = "#38bdf8",
+    routePoints = {
+      { x = 60, y = 40 },
+      { x = 120, y = 120 },
+      { x = 170, y = 190 }
+    }
   }
 }
 

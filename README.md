@@ -1,69 +1,66 @@
 # BeamNG-ETS2
 
-A project to combine BeamNG driving gameplay with ETS2-inspired vehicle selection, UI, and world flow.
+A starter mod project for an ETS2-inspired BeamNG experience.
 
-This repository is a starter foundation for building a prototype where:
-- the player launches from the BeamNG menu
-- a custom vehicle selection screen appears
-- a truck is spawned into the map
-- the player drives around the world
-- a minimap is shown in an ETS2-inspired style
+This repository is a prototype scaffold for a project where:
+- the user starts in BeamNG
+- a truck selection menu appears
+- a map is selected
+- a truck is spawned into the world
+- a minimap and HUD overlay behave in an ETS2-inspired way
 
-## Goals
+## What this repository contains
 
-- Create a playable prototype with BeamNG as the simulation engine
-- Add ETS2-inspired truck selection and menu flow
-- Build a custom minimap overlay
-- Keep everything modular so it can grow into a larger mod project
+This is not a full commercial game conversion. It is a clean starter foundation built for experimentation and iteration.
 
-## Important note
+Included here:
+- configurable truck and map lists
+- menu logic for selection
+- spawn logic for a vehicle and map
+- minimap prototype
+- basic project structure for a mod workflow
 
-This is a starter project and a concept framework. BeamNG modding depends on the game's Lua API, vehicle definitions, and asset pipeline. The exact code will need to be adapted to your BeamNG installation and mod structure.
+## IMPORTANT
 
-Also, do not re-use copyrighted ETS2 assets or game data without permission or a valid license. This project should use original or legally acquired content, or an ETS2-inspired visual style instead of direct game asset cloning.
+BeamNG modding depends on the actual BeamNG game files and its Lua runtime. This repo gives you a code structure and logic scaffold, but the final integration must be placed into your BeamNG mod folder and configured to match your BeamNG installation.
+
+Also, do not reuse ETS2 assets or copyrighted game data without permission. Use original or legally acquired assets, or make an ETS2-inspired visual style instead of copying exact game content.
 
 ## Repository structure
 
 ```text
 README.md
 .gitignore
+docs/
+  ROADMAP.md
+  BEAMNG_SETUP.md
 src/
   beamng_ets2_core/
-    main.lua
     config.lua
     menu.lua
     spawn.lua
     minimap.lua
-docs/
-  ROADMAP.md
+    main.lua
 ```
-
-## Starter flow
-
-1. Launch BeamNG
-2. Load the mod or script bundle
-3. Select a truck from the menu
-4. Choose a map
-5. Spawn the truck into the world
-6. Drive and observe the custom minimap overlay
 
 ## Current status
 
-This repository currently contains a starter codebase for the project foundation, including:
-- a sample truck config
-- menu system scaffold
-- spawn logic
-- minimap overlay prototype
-- roadmap and next steps
+This project is currently a working prototype foundation, not a finished ingame mod.
 
-## Next steps
+It is ready for you to:
+- inspect the architecture
+- modify the lists of trucks and maps
+- extend the spawn logic
+- hook the minimap into a real BeamNG UI layer
 
-- add actual BeamNG-compatible Lua integration
-- create custom vehicle definitions
-- add map and route markers
-- improve the UI styling to feel more like ETS2
-- add cargo, journey, and navigation systems
+## How to use it in BeamNG
+
+1. Copy the `src/beamng_ets2_core` folder into your BeamNG mod or script directory.
+2. Ensure your BeamNG mod loader can access it.
+3. Edit the truck and map lists in `config.lua`.
+4. Add real vehicle files and a map if needed.
+5. Connect the logic to the BeamNG UI system for final in-game display.
 
 ## License
 
-This project is intended as a development starter for personal or learning use. Add your own license if you plan to publish or share it publicly.
+This starter project is meant for personal development and experimentation. Add a proper license if you plan to share or publish it.

@@ -1,44 +1,46 @@
--- beamng_ets2_core/minimap.lua
--- A lightweight minimap prototype for ETS2-inspired HUD behavior.
+-- beamng_ets2_core/main.lua
+-- Main entry point for the BeamNG-ETS2 prototype.
 
-local Minimap = {}
-Minimap.__index = Minimap
+local config = require("beamng_ets2_core.config")
+local Menu = require("beamng_ets2_core.menu")
+local SpawnSystem = require("beamng_ets2_core.spawn")
+local Minimap = require("beamng_ets2_core.minimap")
 
-function Minimap.new(config)
-  local self = setmetatable({}, Minimap)
-  self.config = config.minimap
-  self.visible = true
-  self.playerX = 0
-  self.playerY = 0
-  self.routePoints = {
-    { x = 100, y = 60 },
-    { x = 140, y = 110 },
-    { x = 180, y = 160 }
-  }
-  return self
+local app = {
+  config = config,
+  menu = Menu.new(config),
+  spawnSystem = SpawnSystem.new(config),
+  minimap = Minimap.new(config),
+  started = false
+}
+
+function app:start()
+  self.menu:open()
+  self.started = true
+  print("BeamNG-ETS2 prototype started")
+  print("Default truck: " .. self.config.defaultTruck)
+  print("Default map: " .. self.config.defaultMap)
 end
 
-function Minimap:setPlayerPosition(x, y)
-  self.playerX = x
-  self.playerY = y
+function app:selectVehicle(truckId)
+  self.menu:selectTruck(truckId)
 end
 
-function Minimap:render()
-  if not self.visible then
-    return
-  end
-
-  -- This is a conceptual render layer.
-  -- In BeamNG, this would typically be a UI element or screen overlay.
-  print("Rendering minimap...")
-  print("Player position: " .. self.playerX .. ", " .. self.playerY)
-  print("Map size: " .. self.config.width .. "x" .. self.config.height)
+function app:selectMap(mapId)
+  self.menu:selectMap(mapId)
 end
 
-function Minimap:drawRoute()
-  for _, point in ipairs(self.routePoints) do
-    print("Route point: " .. point.x .. ", " .. point.y)
-  end
+function app:launchMission()
+  local selection = self.menu:getSelection()
+  self.spawnSystem:spawnTruck(selection.truck, selection.map)
+  self.minimap:setPlayerPosition(120, 120)
+  self.minimap:drawRoute()
+  self.minimap:render()
 end
 
-return Minimap
+function app:runDemo()
+  self:start()
+  self:launchMission()
+end
+
+return app
