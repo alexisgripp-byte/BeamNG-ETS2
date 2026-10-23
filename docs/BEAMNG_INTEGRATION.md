@@ -1,54 +1,65 @@
 -- beamng_ets2_core/main.lua
--- Main entry point for the BeamNG-ETS2 prototype.
+-- Bootstraps the BeamNG-ETS2 prototype and routes the app lifecycle.
 
 local config = require("beamng_ets2_core.config")
-local Menu = require("beamng_ets2_core.menu")
+local State = require("beamng_ets2_core.state")
+local UI = require("beamng_ets2_core.ui")
+local HUD = require("beamng_ets2_core.hud")
 local SpawnSystem = require("beamng_ets2_core.spawn")
-local Minimap = require("beamng_ets2_core.minimap")
+local Menu = require("beamng_ets2_core.menu")
 
 local app = {
   config = config,
-  menu = Menu.new(config),
+  state = State.new(config),
+  ui = UI.new(config),
+  hud = HUD.new(config),
   spawnSystem = SpawnSystem.new(config),
-  minimap = Minimap.new(config),
+  menu = Menu.new(config),
   started = false
 }
 
-function app:start()
-  self.menu:open()
+function app:init()
+  self.state:openMenu()
+  self.state:startSession()
   self.started = true
-  print("[Main] BeamNG-ETS2 prototype started")
-  print("[Main] Default truck: " .. self.config.defaultTruck)
-  print("[Main] Default map: " .. self.config.defaultMap)
+  print("[Main] BeamNG-ETS2 prototype initialized")
 end
 
-function app:selectVehicle(truckId)
+function app:showMenu()
+  self.ui:renderMainMenu()
+  self.menu:render()
+end
+
+function app:selectTruck(truckId)
+  self.state:selectTruck(truckId)
   self.menu:selectTruck(truckId)
 end
 
 function app:selectMap(mapId)
+  self.state:selectMap(mapId)
   self.menu:selectMap(mapId)
 end
 
 function app:launchSession()
-  self.menu:render()
-
   local selection = self.menu:getSelection()
+  self.state:selectTruck(selection.truck)
+  self.state:selectMap(selection.map)
+
   self.spawnSystem:spawnTruck(selection.truck, selection.map)
+  self.hud:setPlayerPosition(120, 120)
+  self.hud:renderMinimap()
+  self.hud:renderSpeedometer(64)
+  self.hud:renderCargoStatus("Cargo route")
 
-  self.minimap:setPlayerPosition(120, 120)
-  self.minimap:drawRoute()
-  self.minimap:render()
-
-  print("[Main] Session started for truck: " .. selection.truck .. " on map: " .. selection.map)
+  print("[Main] Session launched: " .. selection.truck .. " / " .. selection.map)
 end
 
 function app:runDemo()
-  self:start()
+  self:init()
+  self:showMenu()
   self:launchSession()
 end
 
--- Example usage for the prototype.
 app:runDemo()
 
 return app

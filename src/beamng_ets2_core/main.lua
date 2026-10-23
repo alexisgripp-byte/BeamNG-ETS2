@@ -1,51 +1,54 @@
--- beamng_ets2_core/minimap.lua
--- Simple minimap logic for a BeamNG+ETS2 inspired world map.
+-- beamng_ets2_core/hud.lua
+-- A minimap and HUD-like overlay prototype for the BeamNG-ETS2 concept.
 
-local Minimap = {}
-Minimap.__index = Minimap
+local HUD = {}
+HUD.__index = HUD
 
-function Minimap.new(config)
-  local self = setmetatable({}, Minimap)
+function HUD.new(config)
+  local self = setmetatable({}, HUD)
   self.config = config.minimap
-  self.visible = true
   self.playerX = 0
   self.playerY = 0
   self.routePoints = self.config.routePoints or {}
+  self.visible = true
   return self
 end
 
-function Minimap:setPlayerPosition(x, y)
+function HUD:setPlayerPosition(x, y)
   self.playerX = x
   self.playerY = y
 end
 
-function Minimap:worldToMap(x, y)
-  local mapX = ((x / 300) * (self.config.width - 20)) + 10
-  local mapY = ((y / 300) * (self.config.height - 20)) + 10
+function HUD:worldToHud(x, y)
+  local worldWidth = 300
+  local worldHeight = 300
+
+  local mapX = ((x / worldWidth) * (self.config.width - 20)) + 10
+  local mapY = ((y / worldHeight) * (self.config.height - 20)) + 10
   return mapX, mapY
 end
 
-function Minimap:render()
+function HUD:renderMinimap()
   if not self.visible then
     return
   end
 
-  local px, py = self:worldToMap(self.playerX, self.playerY)
-
-  print("[Minimap] Rendering map: " .. self.config.width .. "x" .. self.config.height)
-  print("[Minimap] Player position in world: " .. self.playerX .. ", " .. self.playerY)
-  print("[Minimap] Player position on map: " .. px .. ", " .. py)
+  local hudX, hudY = self:worldToHud(self.playerX, self.playerY)
+  print("[HUD] Minimap: " .. self.config.width .. "x" .. self.config.height)
+  print("[HUD] Player marker: " .. hudX .. ", " .. hudY)
 
   for index, point in ipairs(self.routePoints) do
-    local mapX, mapY = self:worldToMap(point.x, point.y)
-    print("[Minimap] Route point " .. index .. ": world=" .. point.x .. "," .. point.y .. " | map=" .. mapX .. "," .. mapY)
+    local routeX, routeY = self:worldToHud(point.x, point.y)
+    print("[HUD] Route marker " .. index .. ": " .. routeX .. ", " .. routeY)
   end
 end
 
-function Minimap:drawRoute()
-  for _, point in ipairs(self.routePoints) do
-    print("[Minimap] Draw route marker at world position " .. point.x .. ", " .. point.y)
-  end
+function HUD:renderSpeedometer(speed)
+  print("[HUD] Speed: " .. tostring(speed) .. " km/h")
 end
 
-return Minimap
+function HUD:renderCargoStatus(cargo)
+  print("[HUD] Cargo: " .. tostring(cargo or "none"))
+end
+
+return HUD
