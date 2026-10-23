@@ -1,37 +1,45 @@
 # BeamNG-ETS2
 
-A BeamNG mod prototype focused on a trucking experience inspired by ETS2.
+A BeamNG mod prototype focused on an ETS2-inspired trucking experience.
 
-This project is designed to evolve into a custom BeamNG experience with:
-- a startup menu
-- truck and map selection
-- spawn flow
-- minimap and HUD updates
-- runtime state tracking
+## Project status
 
-## Current prototype stage
+This project is now moving into Stage 3: BeamNG local mod integration.
 
-This repository now includes a fuller architecture for a BeamNG-style project:
-- config layer for trucks and maps
-- session state management
-- UI/menu rendering
-- HUD/minimap logic
-- spawning abstraction
-- bootstrap and runtime orchestration
+Stage 1: concept and repository setup
+Stage 2: prototype architecture and runtime scaffolding
+Stage 3: local BeamNG integration and real game wiring
+Stage 4: playable in-engine test and validation
+Stage 5: expansion and polish
 
-## Folder structure
+At this stage, the repo is no longer just idea-level scaffolding. It includes:
+- config for trucks and maps
+- menu flow
+- HUD/minimap prototype
+- app state
+- runtime/bootstrap structure
+- local BeamNG integration checklist
+
+## Important note
+
+This repo is still a prototype foundation. It is not yet a final in-game mod and cannot be launched directly in BeamNG from GitHub alone. The code must be moved into a local BeamNG mod workspace and wired to the actual BeamNG Lua API and assets.
+
+## Repository structure
 
 ```text
 README.md
 assets/
   .gitkeep
 docs/
+  BEAMNG_LOCAL_INSTALL.md
   BEAMNG_MOD_SETUP.md
   BEAMNG_SETUP.md
   BEAMNG_INTEGRATION.md
+  BEAMNG_STAGE_3.md
   ROADMAP.md
 src/
   beamng_ets2_core/
+    bootstrap.lua
     config.lua
     state.lua
     ui.lua
@@ -39,30 +47,48 @@ src/
     spawn.lua
     menu.lua
     runtime.lua
-    bootstrap.lua
+    loader.lua
+    modInfo.lua
     main.lua
+    stage3.lua
 ```
 
-## What this stage adds
+## Stage 3 goals
 
-This version introduces:
-- a runtime layer to simulate the main BeamNG execution cycle
-- a bootstrap system for startup orchestration
-- a clearer structure for connecting to actual BeamNG APIs later
-- a better separation between config, UI, runtime, and session state
+The focus now is to connect the prototype to a real BeamNG local setup:
+- place the module into a BeamNG mod folder
+- add a real startup entrypoint
+- call BeamNG runtime APIs for map loading and vehicle spawn
+- bind HUD/minimap updates to live player data
+- validate the project in a local BeamNG environment
 
-## Important note
+## BeamNG local setup
 
-This is still a concept prototype, not a complete in-game BeamNG mod.
-It should still be treated as a foundation that will require actual BeamNG assets and runtime integration.
+Use the project files as a local mod scaffold and place them alongside a BeamNG installation in a custom mod directory or your local project workspace. The exact path depends on your BeamNG setup, but it should follow the general pattern:
 
-## Next use
+```text
+BeamNG.drive/
+  mods/
+    beamng_ets2/
+      lua/
+        beamng_ets2_core/
+      ui/
+      vehicles/
+      levels/
+```
 
-1. Copy the `src/beamng_ets2_core` folder into your BeamNG mod or testing workspace.
-2. Add real truck files and map assets.
-3. Hook the bootstrap/runtime modules into BeamNG's Lua API.
-4. Replace simulation layers with real BeamNG calls when your mod environment is ready.
+or a custom script workspace that your local mod loader can access.
 
-## License
+## Stage 3 checklist
 
-For personal development and learning. Add a license if you plan to publish or share the project.
+- [ ] copy the `src/beamng_ets2_core` files into the local BeamNG mod workspace
+- [ ] add a startup script that calls the loader
+- [ ] replace placeholder print statements with real BeamNG API calls
+- [ ] confirm the selected truck spawns into the world
+- [ ] confirm the chosen map loads correctly
+- [ ] confirm minimap coordinates follow the vehicle position
+- [ ] confirm the HUD updates live while driving
+
+## Next step
+
+The next step is to implement the actual BeamNG runtime hooks in a local BeamNG environment, using stage3.lua as the integration bridge between the prototype state and the real BeamNG engine.
