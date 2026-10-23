@@ -1,58 +1,66 @@
--- beamng_ets2_core/spawn.lua
--- Handles vehicle spawning and map deployment logic.
+-- beamng_ets2_core/menu.lua
+-- Simple but realistic menu state for truck and map selection.
 
-local SpawnSystem = {}
-SpawnSystem.__index = SpawnSystem
+local Menu = {}
+Menu.__index = Menu
 
-function SpawnSystem.new(config)
-  local self = setmetatable({}, SpawnSystem)
+function Menu.new(config)
+  local self = setmetatable({}, Menu)
   self.config = config
+  self.selectedTruck = config.defaultTruck
+  self.selectedMap = config.defaultMap
+  self.isOpen = true
+  self.items = {
+    truck = config.trucks,
+    map = config.maps
+  }
   return self
 end
 
-function SpawnSystem:findTruck(truckId)
-  for _, truck in ipairs(self.config.trucks) do
-    if truck.id == truckId then
-      return truck
-    end
-  end
-  return nil
+function Menu:open()
+  self.isOpen = true
+  print("[Menu] BeamNG-ETS2 menu opened")
 end
 
-function SpawnSystem:findMap(mapId)
-  for _, map in ipairs(self.config.maps) do
-    if map.id == mapId then
-      return map
-    end
-  end
-  return nil
+function Menu:close()
+  self.isOpen = false
+  print("[Menu] BeamNG-ETS2 menu closed")
 end
 
-function SpawnSystem:spawnTruck(truckId, mapId)
-  local truck = self:findTruck(truckId)
-  local map = self:findMap(mapId)
-
-  if not truck then
-    print("Truck not found: " .. tostring(truckId))
-    return false
-  end
-
-  if not map then
-    print("Map not found: " .. tostring(mapId))
-    return false
-  end
-
-  -- This is the BeamNG integration point.
-  -- In a real mod, this would call BeamNG API functions for vehicle spawning and map loading.
-  if type(beamng) == "table" and type(beamng.loadVehicle) == "function" then
-    beamng.loadVehicle(truck.id)
-    print("Spawner hooked to BeamNG runtime for vehicle: " .. truck.id)
-  else
-    print("BeamNG runtime not detected. Simulating spawn for truck: " .. truck.id)
-  end
-
-  print("Spawning truck '" .. truck.name .. "' onto map '" .. map.name .. "'")
-  return true
+function Menu:getTrucks()
+  return self.items.truck
 end
 
-return SpawnSystem
+function Menu:getMaps()
+  return self.items.map
+end
+
+function Menu:selectTruck(truckId)
+  self.selectedTruck = truckId
+  print("[Menu] Selected truck: " .. truckId)
+end
+
+function Menu:selectMap(mapId)
+  self.selectedMap = mapId
+  print("[Menu] Selected map: " .. mapId)
+end
+
+function Menu:getSelection()
+  return {
+    truck = self.selectedTruck,
+    map = self.selectedMap
+  }
+end
+
+function Menu:render()
+  if not self.isOpen then
+    return
+  end
+
+  print("[Menu] " .. self.config.ui.menuTitle)
+  print("[Menu] " .. self.config.ui.menuSubtitle)
+  print("[Menu] Available trucks: " .. #self.items.truck)
+  print("[Menu] Available maps: " .. #self.items.map)
+end
+
+return Menu

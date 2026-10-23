@@ -1,46 +1,51 @@
--- beamng_ets2_core/main.lua
--- Main entry point for the BeamNG-ETS2 prototype.
+-- beamng_ets2_core/minimap.lua
+-- Simple minimap logic for a BeamNG+ETS2 inspired world map.
 
-local config = require("beamng_ets2_core.config")
-local Menu = require("beamng_ets2_core.menu")
-local SpawnSystem = require("beamng_ets2_core.spawn")
-local Minimap = require("beamng_ets2_core.minimap")
+local Minimap = {}
+Minimap.__index = Minimap
 
-local app = {
-  config = config,
-  menu = Menu.new(config),
-  spawnSystem = SpawnSystem.new(config),
-  minimap = Minimap.new(config),
-  started = false
-}
-
-function app:start()
-  self.menu:open()
-  self.started = true
-  print("BeamNG-ETS2 prototype started")
-  print("Default truck: " .. self.config.defaultTruck)
-  print("Default map: " .. self.config.defaultMap)
+function Minimap.new(config)
+  local self = setmetatable({}, Minimap)
+  self.config = config.minimap
+  self.visible = true
+  self.playerX = 0
+  self.playerY = 0
+  self.routePoints = self.config.routePoints or {}
+  return self
 end
 
-function app:selectVehicle(truckId)
-  self.menu:selectTruck(truckId)
+function Minimap:setPlayerPosition(x, y)
+  self.playerX = x
+  self.playerY = y
 end
 
-function app:selectMap(mapId)
-  self.menu:selectMap(mapId)
+function Minimap:worldToMap(x, y)
+  local mapX = ((x / 300) * (self.config.width - 20)) + 10
+  local mapY = ((y / 300) * (self.config.height - 20)) + 10
+  return mapX, mapY
 end
 
-function app:launchMission()
-  local selection = self.menu:getSelection()
-  self.spawnSystem:spawnTruck(selection.truck, selection.map)
-  self.minimap:setPlayerPosition(120, 120)
-  self.minimap:drawRoute()
-  self.minimap:render()
+function Minimap:render()
+  if not self.visible then
+    return
+  end
+
+  local px, py = self:worldToMap(self.playerX, self.playerY)
+
+  print("[Minimap] Rendering map: " .. self.config.width .. "x" .. self.config.height)
+  print("[Minimap] Player position in world: " .. self.playerX .. ", " .. self.playerY)
+  print("[Minimap] Player position on map: " .. px .. ", " .. py)
+
+  for index, point in ipairs(self.routePoints) do
+    local mapX, mapY = self:worldToMap(point.x, point.y)
+    print("[Minimap] Route point " .. index .. ": world=" .. point.x .. "," .. point.y .. " | map=" .. mapX .. "," .. mapY)
+  end
 end
 
-function app:runDemo()
-  self:start()
-  self:launchMission()
+function Minimap:drawRoute()
+  for _, point in ipairs(self.routePoints) do
+    print("[Minimap] Draw route marker at world position " .. point.x .. ", " .. point.y)
+  end
 end
 
-return app
+return Minimap

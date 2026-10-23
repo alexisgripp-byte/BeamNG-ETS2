@@ -1,2 +1,39 @@
-# This file is intentionally empty for now.
-# Add your generated or downloaded assets here later if needed.
+# BeamNG integration checklist
+
+This project is a prototype scaffold. To make it truly usable in BeamNG, follow this checklist.
+
+## 1. Prepare the BeamNG mod structure
+- Copy the `src/beamng_ets2_core` folder into your BeamNG mod environment.
+- Ensure the Lua runtime can resolve the module path.
+- Confirm your mod loader is enabled.
+
+## 2. Add real assets
+- Add or create actual truck model files.
+- Add map assets if using custom maps.
+- Add HUD or UI assets for your minimap and menu.
+
+## 3. Wire to BeamNG runtime
+- Use the BeamNG Lua API to load a map.
+- Use the API to spawn a vehicle.
+- Read player position and rotation from the active scene.
+
+## 4. Build the actual menu
+- Create a menu screen in the BeamNG UI system.
+- Add truck cards or buttons.
+- Add a map selection screen.
+
+## 5. Build the minimap HUD
+- Track the player vehicle position in world space.
+- Convert world coordinates to minimap space.
+- Add markers for destination, route, and vehicle.
+
+## 6. Test in-game
+- Launch BeamNG.
+- Load the mod.
+- Pick a truck and map.
+- Spawn the vehicle.
+- Drive and confirm the minimap updates.
+
+## Notes
+
+This file is intentionally a practical checklist rather than a claim that the prototype is complete. The real in-game integration still depends on BeamNG’s actual mod tools, APIs, and assets.
