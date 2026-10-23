@@ -1,37 +1,35 @@
 # BeamNG-ETS2
 
-A Windows-friendly BeamNG mod prototype designed around an ETS2-inspired menu, truck selection, map flow, and minimap HUD.
+A BeamNG mod prototype focused on a trucking experience inspired by ETS2.
 
-This project is a practical foundation for a custom driving experience where:
-- the player opens a selection menu
-- a truck is chosen
-- a map is selected
-- the truck is spawned into the scene
-- a minimap displays position and route info in an ETS2-inspired style
+This project is designed to evolve into a custom BeamNG experience with:
+- a startup menu
+- truck and map selection
+- spawn flow
+- minimap and HUD updates
+- runtime state tracking
 
-## Project goal
+## Current prototype stage
 
-The long-term goal is to combine BeamNG's driving simulation with a more structured, trucking-focused user experience inspired by ETS2.
+This repository now includes a fuller architecture for a BeamNG-style project:
+- config layer for trucks and maps
+- session state management
+- UI/menu rendering
+- HUD/minimap logic
+- spawning abstraction
+- bootstrap and runtime orchestration
 
-## Current status
-
-This repository contains a more advanced prototype foundation than the original scaffold:
-- central app state management
-- truck and map selection modules
-- minimap/hud logic
-- integration-ready startup flow
-- project documentation for BeamNG use
-
-## Repository structure
+## Folder structure
 
 ```text
 README.md
 assets/
   .gitkeep
 docs/
-  ROADMAP.md
+  BEAMNG_MOD_SETUP.md
   BEAMNG_SETUP.md
   BEAMNG_INTEGRATION.md
+  ROADMAP.md
 src/
   beamng_ets2_core/
     config.lua
@@ -40,20 +38,31 @@ src/
     hud.lua
     spawn.lua
     menu.lua
+    runtime.lua
+    bootstrap.lua
     main.lua
 ```
 
-## How to use it
+## What this stage adds
 
-1. Copy the `src/beamng_ets2_core` folder into your BeamNG mod directory or script workspace.
-2. Adjust the truck and map lists in `config.lua`.
-3. Hook the `main.lua` entrypoint into your BeamNG startup flow.
-4. Replace the placeholder logic with actual BeamNG mod API calls when you have your vehicle and map files ready.
+This version introduces:
+- a runtime layer to simulate the main BeamNG execution cycle
+- a bootstrap system for startup orchestration
+- a clearer structure for connecting to actual BeamNG APIs later
+- a better separation between config, UI, runtime, and session state
 
 ## Important note
 
-This repo is still a prototype and not a complete commercial conversion. It is intended as a mod foundation for your project, to be expanded with actual BeamNG assets and API integration.
+This is still a concept prototype, not a complete in-game BeamNG mod.
+It should still be treated as a foundation that will require actual BeamNG assets and runtime integration.
+
+## Next use
+
+1. Copy the `src/beamng_ets2_core` folder into your BeamNG mod or testing workspace.
+2. Add real truck files and map assets.
+3. Hook the bootstrap/runtime modules into BeamNG's Lua API.
+4. Replace simulation layers with real BeamNG calls when your mod environment is ready.
 
 ## License
 
-This project is for personal development and learning. Add a license if you plan to publish or share it publicly.
+For personal development and learning. Add a license if you plan to publish or share the project.
